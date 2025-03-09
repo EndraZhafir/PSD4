@@ -36,19 +36,19 @@ def infix_to_postfix(ekspresi):
     i = 0
     while i < len(ekspresi):
         char = ekspresi[i]
-        if char.isdigit(): 
+        if char.isdigit():
             num = char
             while i + 1 < len(ekspresi) and ekspresi[i + 1].isdigit():
                 i += 1
                 num += ekspresi[i]
             postfix.append(num)
-        elif char == '(':  
+        elif char == '(':
             stack.push(char)
-        elif char == ')': 
+        elif char == ')':
             while not stack.is_empty() and stack.peek() != '(':
                 postfix.append(stack.pop())
-            stack.pop()  
-        else: 
+            stack.pop() 
+        else:
             while (not stack.is_empty() and pangkat(char) <= pangkat(stack.peek())):
                 postfix.append(stack.pop())
             stack.push(char)
@@ -57,7 +57,7 @@ def infix_to_postfix(ekspresi):
     while not stack.is_empty():
         postfix.append(stack.pop())
 
-    return ' '.join(postfix) 
+    return ' '.join(postfix)
 
 def hasil_postfix(ekspresi):
     stack = []
@@ -72,7 +72,7 @@ def hasil_postfix(ekspresi):
         elif op == '/':
             return a / b
         elif op == '^':
-            return a ** b  
+            return a ** b
         else:
             raise ValueError(f"Bukan suatu operator: {op}")
 
@@ -80,18 +80,18 @@ def hasil_postfix(ekspresi):
 
     for i in digit:
         if i.isdigit():
-            stack.append(int(i)) 
-        else: 
-            b = stack.pop()  
+            stack.append(int(i))
+        else:
+            b = stack.pop()
             a = stack.pop()
-            hasil = operator(i, b, a) 
-            stack.append(hasil) 
+            hasil = operator(i, b, a)
+            stack.append(hasil)
 
-    return stack.pop()  
+    return stack.pop()
 
-ekspresi = input("Inputkan ekspresi matematika infix (contoh: 12 + 34 * 2): ")
+ekspresi = input("Inputkan ekspresi matematika infix: ")
 
-ekspresi_postfix = infix_to_postfix(ekspresi.replace(' ', '')) 
+ekspresi_postfix = infix_to_postfix(ekspresi.replace(' ', ''))
 print("Ekspresi matematika Infix: ", ekspresi)
 print("Ekspresi matematika postfix: ", ekspresi_postfix)
 
