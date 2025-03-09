@@ -33,9 +33,15 @@ def pangkat(op):
 def infix_to_postfix(ekspresi):
     stack = Stack()
     postfix = []
-    for char in ekspresi:
-        if char.isalnum(): 
-            postfix.append(char)
+    i = 0
+    while i < len(ekspresi):
+        char = ekspresi[i]
+        if char.isdigit(): 
+            num = char
+            while i + 1 < len(ekspresi) and ekspresi[i + 1].isdigit():
+                i += 1
+                num += ekspresi[i]
+            postfix.append(num)
         elif char == '(':  
             stack.push(char)
         elif char == ')': 
@@ -46,11 +52,12 @@ def infix_to_postfix(ekspresi):
             while (not stack.is_empty() and pangkat(char) <= pangkat(stack.peek())):
                 postfix.append(stack.pop())
             stack.push(char)
+        i += 1
 
     while not stack.is_empty():
         postfix.append(stack.pop())
 
-    return ' '.join(postfix)  
+    return ' '.join(postfix) 
 
 def hasil_postfix(ekspresi):
     stack = []
@@ -82,7 +89,7 @@ def hasil_postfix(ekspresi):
 
     return stack.pop()  
 
-ekspresi = input("Inputkan ekspresi matematika infix (satu digit per operand): ")
+ekspresi = input("Inputkan ekspresi matematika infix (contoh: 12 + 34 * 2): ")
 
 ekspresi_postfix = infix_to_postfix(ekspresi.replace(' ', '')) 
 print("Ekspresi matematika Infix: ", ekspresi)
